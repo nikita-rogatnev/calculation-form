@@ -1,7 +1,10 @@
 import {Form} from './components/form/form';
-import {RangeSlider} from './components/range-slider/range-slider';
+import {Range} from './components/inputs/range/range';
+import {Checkbox} from './components/inputs/checkbox/checkbox';
+import {Radio} from './components/inputs/radio/radio';
+import {Text} from './components/inputs/text/text';
 
-// Render Form
+// RENDER FORM
 const formContainer = document.querySelector(`.app`);
 formContainer.innerHTML = ``;
 const formItem = new Form();
@@ -21,21 +24,21 @@ formContainer.addEventListener('input', function () {
   document.querySelector(`.form__price`).innerHTML = totalPrice.toString();
 });
 
-// Render Range Sliders
+// RENDER RANGE SLIDERS
 const rangeSliderContainer = document.querySelector(`.ranges__container`);
 rangeSliderContainer.innerHTML = ``;
 
-// @name, @price, @min, @max, @step, @start
-const rangeSliderItem = new RangeSlider(`Обои`, 100, 0, 100, 1, 0);
+// @title, @name, @price, @min, @max, @step, @start
+const rangeSliderItem = new Range(`Обои`, `product`, 100, 0, 100, 1, 0);
 rangeSliderContainer.appendChild(rangeSliderItem.render());
 
-const rangeSliderItem2 = new RangeSlider(`Доски`, 200, 0, 100, 1, 0);
+const rangeSliderItem2 = new Range(`Доски`, `product`, 200, 0, 100, 1, 0);
 rangeSliderContainer.appendChild(rangeSliderItem2.render());
 
 // Range Sliders Dynamic Result
-const rangeSliders = document.querySelectorAll(`.range__item`);
+const rangeInputs = document.querySelectorAll(`.range`);
 
-for (let item of rangeSliders) {
+for (let item of rangeInputs) {
   const rangeInput = item.querySelector(`.range__input`);
   const rangePrice = item.querySelector(`.range__total-price`);
 
@@ -43,3 +46,33 @@ for (let item of rangeSliders) {
     rangePrice.innerHTML = `${this.value * this.dataset.price}`;
   });
 }
+
+// RENDER CHECKBOXES
+const checkboxesContainer = document.querySelector(`.checkboxes__container`);
+checkboxesContainer.innerHTML = ``;
+
+// @title, @name, @price
+const checkboxItem = new Checkbox(`Доставка`, `additional`, 500);
+checkboxesContainer.appendChild(checkboxItem.render());
+
+const checkboxItem2 = new Checkbox(`Упаковка`, `additional`, 200);
+checkboxesContainer.appendChild(checkboxItem2.render());
+
+// RENDER RADIOS
+const radioContainer = document.querySelector(`.radios__container`);
+radioContainer.innerHTML = ``;
+
+// @title, @name, @price, @group
+const radioItem = new Radio(`Курьером`, `delivery`, 1000, `delivery-group`);
+radioContainer.appendChild(radioItem.render());
+
+const radioItem2 = new Radio(`Самовывоз`, `delivery`, 0, `delivery-group`);
+radioContainer.appendChild(radioItem2.render());
+
+// RENDER TEXTS
+const textsContainer = document.querySelector(`.texts__container`);
+textsContainer.innerHTML = ``;
+
+// @title, @name, @placeholder
+const textItem = new Text(`Имя`, `name`, `Введите ваше имя`);
+textsContainer.appendChild(textItem.render());

@@ -8,25 +8,33 @@ export class Form extends Component {
 
   get template() {
     return `<form class="form">
+
       <fieldset class="ranges">
         <legend class="ranges__legend">Товары</legend>
         <div class="ranges__container"></div>
       </fieldset>
-    
-<!--      <fieldset class="options">-->
-<!--        <legend class="options__legend">Дополнительно</legend>-->
-<!--        <input type="checkbox" name="delivery" id="delivery" value="100" data-price="666">-->
-<!--        <label for="delivery">Доставка</label>-->
-<!--        <input type="checkbox" name="delivery" id="package" value="200" data-price="200">-->
-<!--        <label for="package">Упоковка</label>-->
-<!--      </fieldset>-->
-<!--    -->
+      
+      <fieldset class="checkboxes">
+        <legend class="checkboxes__legend">Дополнительные опции</legend>
+        <div class="checkboxes__container"></div>
+      </fieldset>
+  
+      <fieldset class="radios">
+        <legend class="radios__legend">Способ доставки</legend>
+        <div class="radios__container"></div>
+      </fieldset>
+      
+      <fieldset class="texts">
+        <legend class="texts__legend">Информация о вас</legend>
+        <div class="texts__container"></div>
+      </fieldset>
+      
       <div class="form__total">
         <p>Итого позиций: <span class="form__quantity">0</span></p>
         <p>Итого цена: <span class="form__price">0</span></p>
       </div>
     
-      <button type="submit">Submit</button>
+      <button type="submit">Отправить заявку</button>
     </form>`;
   }
 }

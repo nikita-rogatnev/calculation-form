@@ -151,25 +151,33 @@ class Form extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   get template() {
     return `<form class="form">
+
       <fieldset class="ranges">
         <legend class="ranges__legend">Товары</legend>
         <div class="ranges__container"></div>
       </fieldset>
-    
-<!--      <fieldset class="options">-->
-<!--        <legend class="options__legend">Дополнительно</legend>-->
-<!--        <input type="checkbox" name="delivery" id="delivery" value="100" data-price="666">-->
-<!--        <label for="delivery">Доставка</label>-->
-<!--        <input type="checkbox" name="delivery" id="package" value="200" data-price="200">-->
-<!--        <label for="package">Упоковка</label>-->
-<!--      </fieldset>-->
-<!--    -->
+      
+      <fieldset class="checkboxes">
+        <legend class="checkboxes__legend">Дополнительные опции</legend>
+        <div class="checkboxes__container"></div>
+      </fieldset>
+  
+      <fieldset class="radios">
+        <legend class="radios__legend">Способ доставки</legend>
+        <div class="radios__container"></div>
+      </fieldset>
+      
+      <fieldset class="texts">
+        <legend class="texts__legend">Информация о вас</legend>
+        <div class="texts__container"></div>
+      </fieldset>
+      
       <div class="form__total">
         <p>Итого позиций: <span class="form__quantity">0</span></p>
         <p>Итого цена: <span class="form__price">0</span></p>
       </div>
     
-      <button type="submit">Submit</button>
+      <button type="submit">Отправить заявку</button>
     </form>`;
   }
 
@@ -177,22 +185,88 @@ class Form extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
 /***/ }),
 
-/***/ "./src/components/range-slider/range-slider.js":
-/*!*****************************************************!*\
-  !*** ./src/components/range-slider/range-slider.js ***!
-  \*****************************************************/
-/*! exports provided: RangeSlider */
+/***/ "./src/components/inputs/checkbox/checkbox.js":
+/*!****************************************************!*\
+  !*** ./src/components/inputs/checkbox/checkbox.js ***!
+  \****************************************************/
+/*! exports provided: Checkbox */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RangeSlider", function() { return RangeSlider; });
-/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../component */ "./src/component.js");
- // Range Slider Class
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Checkbox", function() { return Checkbox; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../component */ "./src/component.js");
+ // Checkbox Class
 
-class RangeSlider extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
-  constructor(name, price, min, max, step, start) {
+class Checkbox extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(title, name, price) {
     super();
+    this._title = title;
+    this._name = name;
+    this._price = price;
+  }
+
+  get template() {
+    return `<div class="checkbox">
+        <label class="checkbox__label" for="checkbox__input-${this._name}">${this._title} (${this._price} руб.)</label>
+        <input class="checkbox__input" id="checkbox__input-${this._name}" name="checkbox__input-${this._name}" type="checkbox" value="${this._price}" data-price="${this._price}">
+      </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/components/inputs/radio/radio.js":
+/*!**********************************************!*\
+  !*** ./src/components/inputs/radio/radio.js ***!
+  \**********************************************/
+/*! exports provided: Radio */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Radio", function() { return Radio; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../component */ "./src/component.js");
+ // Radio Class
+
+class Radio extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(title, name, price, group) {
+    super();
+    this._title = title;
+    this._name = name;
+    this._price = price;
+    this._group = group;
+  }
+
+  get template() {
+    return `<div class="radio">
+        <label class="radio__label" for="radio__input-${this._name}">${this._title} (${this._price} руб.)</label>
+        <input class="radio__input" type="radio" name="radio__input-${this._group}" id="radio__input-${this._name}" value="${this._price}" data-price="${this._price}">
+      </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/components/inputs/range/range.js":
+/*!**********************************************!*\
+  !*** ./src/components/inputs/range/range.js ***!
+  \**********************************************/
+/*! exports provided: Range */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Range", function() { return Range; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../component */ "./src/component.js");
+ // Range Class
+
+class Range extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(title, name, price, min, max, step, start) {
+    super();
+    this._title = title;
     this._name = name;
     this._price = price;
     this._min = min;
@@ -202,20 +276,47 @@ class RangeSlider extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   get template() {
-    return `<section class="range__item">
-    <header class="range__info">
-      <ul>
-        <li>Цена: ${this._price}</li>
-        <li>Итого: <b class="range__total-price">0</b></li>
-      </ul>
-    </header>
-    <label>${this._name}</label>
-    <div class="range__controls">
-      <span class="range__helper">${this._min}</span>
-      <input type="range" name="range__input" class="range__input" min="${this._min}" max="${this._max}" step="${this._step}" value="${this._start}" data-price="${this._price}">
-      <span class="range__helper">${this._max}</span>
-    </div>
-  </section>`;
+    return `<div class="range">
+      <label class="range__label" for="range__input-${this._name}">${this._title} (${this._price} руб. / шт.)</label>
+      <b class="range__total-price">0</b>
+      <div class="range__controls">
+        <span class="range__helper">${this._min}</span>
+        <input class="range__input" id="range__input-${this._name}" name="range__input-${this._name}" type="range" min="${this._min}" max="${this._max}" step="${this._step}" value="${this._start}" data-price="${this._price}">
+        <span class="range__helper">${this._max}</span>
+      </div>
+    </div>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/components/inputs/text/text.js":
+/*!********************************************!*\
+  !*** ./src/components/inputs/text/text.js ***!
+  \********************************************/
+/*! exports provided: Text */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Text", function() { return Text; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../component */ "./src/component.js");
+ // Text Class
+
+class Text extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(title, name, placeholder) {
+    super();
+    this._title = title;
+    this._name = name;
+    this._placeholder = placeholder;
+  }
+
+  get template() {
+    return `<div class="text">
+      <label class="text__label" for="text__input-${this._name}">${this._title}</label>
+      <input class="text__input" id="text__input-${this._name}" name="text__input-${this._name}" type="text" placeholder="${this._placeholder}">
+    </div>`;
   }
 
 }
@@ -232,9 +333,15 @@ class RangeSlider extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_form_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/form/form */ "./src/components/form/form.js");
-/* harmony import */ var _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/range-slider/range-slider */ "./src/components/range-slider/range-slider.js");
+/* harmony import */ var _components_inputs_range_range__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/inputs/range/range */ "./src/components/inputs/range/range.js");
+/* harmony import */ var _components_inputs_checkbox_checkbox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/inputs/checkbox/checkbox */ "./src/components/inputs/checkbox/checkbox.js");
+/* harmony import */ var _components_inputs_radio_radio__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/inputs/radio/radio */ "./src/components/inputs/radio/radio.js");
+/* harmony import */ var _components_inputs_text_text__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/inputs/text/text */ "./src/components/inputs/text/text.js");
 
- // Render Form
+
+
+
+ // RENDER FORM
 
 const formContainer = document.querySelector(`.app`);
 formContainer.innerHTML = ``;
@@ -252,25 +359,48 @@ formContainer.addEventListener('input', function () {
 
   document.querySelector(`.form__quantity`).innerHTML = totalQuantity.toString();
   document.querySelector(`.form__price`).innerHTML = totalPrice.toString();
-}); // Render Range Sliders
+}); // RENDER RANGE SLIDERS
 
 const rangeSliderContainer = document.querySelector(`.ranges__container`);
-rangeSliderContainer.innerHTML = ``; // @name, @price, @min, @max, @step, @start
+rangeSliderContainer.innerHTML = ``; // @title, @name, @price, @min, @max, @step, @start
 
-const rangeSliderItem = new _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__["RangeSlider"](`Обои`, 100, 0, 100, 1, 0);
+const rangeSliderItem = new _components_inputs_range_range__WEBPACK_IMPORTED_MODULE_1__["Range"](`Обои`, `product`, 100, 0, 100, 1, 0);
 rangeSliderContainer.appendChild(rangeSliderItem.render());
-const rangeSliderItem2 = new _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__["RangeSlider"](`Доски`, 200, 0, 100, 1, 0);
+const rangeSliderItem2 = new _components_inputs_range_range__WEBPACK_IMPORTED_MODULE_1__["Range"](`Доски`, `product`, 200, 0, 100, 1, 0);
 rangeSliderContainer.appendChild(rangeSliderItem2.render()); // Range Sliders Dynamic Result
 
-const rangeSliders = document.querySelectorAll(`.range__item`);
+const rangeInputs = document.querySelectorAll(`.range`);
 
-for (let item of rangeSliders) {
+for (let item of rangeInputs) {
   const rangeInput = item.querySelector(`.range__input`);
   const rangePrice = item.querySelector(`.range__total-price`);
   rangeInput.addEventListener('input', function () {
     rangePrice.innerHTML = `${this.value * this.dataset.price}`;
   });
-}
+} // RENDER CHECKBOXES
+
+
+const checkboxesContainer = document.querySelector(`.checkboxes__container`);
+checkboxesContainer.innerHTML = ``; // @title, @name, @price
+
+const checkboxItem = new _components_inputs_checkbox_checkbox__WEBPACK_IMPORTED_MODULE_2__["Checkbox"](`Доставка`, `additional`, 500);
+checkboxesContainer.appendChild(checkboxItem.render());
+const checkboxItem2 = new _components_inputs_checkbox_checkbox__WEBPACK_IMPORTED_MODULE_2__["Checkbox"](`Упаковка`, `additional`, 200);
+checkboxesContainer.appendChild(checkboxItem2.render()); // RENDER RADIOS
+
+const radioContainer = document.querySelector(`.radios__container`);
+radioContainer.innerHTML = ``; // @title, @name, @price, @group
+
+const radioItem = new _components_inputs_radio_radio__WEBPACK_IMPORTED_MODULE_3__["Radio"](`Курьером`, `delivery`, 1000, `delivery-group`);
+radioContainer.appendChild(radioItem.render());
+const radioItem2 = new _components_inputs_radio_radio__WEBPACK_IMPORTED_MODULE_3__["Radio"](`Самовывоз`, `delivery`, 0, `delivery-group`);
+radioContainer.appendChild(radioItem2.render()); // RENDER TEXTS
+
+const textsContainer = document.querySelector(`.texts__container`);
+textsContainer.innerHTML = ``; // @title, @name, @placeholder
+
+const textItem = new _components_inputs_text_text__WEBPACK_IMPORTED_MODULE_4__["Text"](`Имя`, `name`, `Введите ваше имя`);
+textsContainer.appendChild(textItem.render());
 
 /***/ }),
 
