@@ -86,64 +86,162 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/component.js":
+/*!**************************!*\
+  !*** ./src/component.js ***!
+  \**************************/
+/*! exports provided: Component */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/utils.js");
+
+class Component {
+  constructor() {
+    if (new.target === Component) {
+      throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
+    }
+
+    this._element = null;
+    this._state = {// Component state
+    };
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  get template() {
+    throw new Error(`You have to define template.`);
+  }
+
+  render() {
+    this._element = Object(_utils__WEBPACK_IMPORTED_MODULE_0__["createElement"])(this.template);
+    this.bind();
+    return this._element;
+  }
+
+  bind() {}
+
+  unbind() {}
+
+}
+
+/***/ }),
+
+/***/ "./src/components/form/form.js":
+/*!*************************************!*\
+  !*** ./src/components/form/form.js ***!
+  \*************************************/
+/*! exports provided: Form */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return Form; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../component */ "./src/component.js");
+ // Form Class
+
+class Form extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor() {
+    super();
+  }
+
+  get template() {
+    return `<form class="form">
+      <fieldset class="ranges">
+        <legend class="ranges__legend">Товары</legend>
+        <div class="ranges__container"></div>
+      </fieldset>
+    
+<!--      <fieldset class="options">-->
+<!--        <legend class="options__legend">Дополнительно</legend>-->
+<!--        <input type="checkbox" name="delivery" id="delivery" value="100" data-price="666">-->
+<!--        <label for="delivery">Доставка</label>-->
+<!--        <input type="checkbox" name="delivery" id="package" value="200" data-price="200">-->
+<!--        <label for="package">Упоковка</label>-->
+<!--      </fieldset>-->
+<!--    -->
+      <div class="form__total">
+        <p>Итого позиций: <span class="form__quantity">0</span></p>
+        <p>Итого цена: <span class="form__price">0</span></p>
+      </div>
+    
+      <button type="submit">Submit</button>
+    </form>`;
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/components/range-slider/range-slider.js":
+/*!*****************************************************!*\
+  !*** ./src/components/range-slider/range-slider.js ***!
+  \*****************************************************/
+/*! exports provided: RangeSlider */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RangeSlider", function() { return RangeSlider; });
+/* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../component */ "./src/component.js");
+ // Range Slider Class
+
+class RangeSlider extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(name, price, min, max, step, start) {
+    super();
+    this._name = name;
+    this._price = price;
+    this._min = min;
+    this._max = max;
+    this._step = step;
+    this._start = start;
+  }
+
+  get template() {
+    return `<section class="range__item">
+    <header class="range__info">
+      <ul>
+        <li>Цена: ${this._price}</li>
+        <li>Итого: <b class="range__total-price">0</b></li>
+      </ul>
+    </header>
+    <label>${this._name}</label>
+    <div class="range__controls">
+      <span class="range__helper">${this._min}</span>
+      <input type="range" name="range__input" class="range__input" min="${this._min}" max="${this._max}" step="${this._step}" value="${this._start}" data-price="${this._price}">
+      <span class="range__helper">${this._max}</span>
+    </div>
+  </section>`;
+  }
+
+}
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// Range Slider
-const rangeContainer = document.querySelector(`.ranges`);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_form_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/form/form */ "./src/components/form/form.js");
+/* harmony import */ var _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/range-slider/range-slider */ "./src/components/range-slider/range-slider.js");
 
-const rangeSlider = (name, price, min, max, step = 1, start = 0) => {
-  const rangeTemplate = `
-  <legend class="range__result">Выбрано: <span class="range__value">${start}</span> шт. по цене ${price}</legend>
-	<div class="range__info">
-	  <label for="range__input">${name}</label>
-    <span>Цена: ${price}</span>
-    <b>Итого: <span class="range__total-price">0</span></b>
-  </div>
-  <div class="range__controls">
-    <span class="range__helper">${min}</span>
-    <input type="range" name="range__input" class="range__input" min="${min}" max="${max}" step="${step}" value="${start}" data-price="${price}">
-    <span class="range__helper">${max}</span>
-  </div>
-  `;
-  const rangeItem = document.createElement(`fieldset`);
-  rangeItem.className = `range__item`;
-  rangeItem.innerHTML = rangeTemplate;
-  return rangeContainer.appendChild(rangeItem);
-}; // name, price, min, max, step, start
+ // Render Form
 
-
-rangeSlider(`Обои тип 1`, 1000, 0, 100, 1, 0);
-rangeSlider(`Обои тип 2`, 1100, 0, 100, 1, 0);
-rangeSlider(`Обои тип 3`, 1200, 0, 100, 1, 0); // Dynamic result
-
-const rangeSliders = document.querySelectorAll(`.range__item`);
-
-for (let item of rangeSliders) {
-  const rangeInput = item.querySelector(`.range__input`);
-  const rangeResult = item.querySelector(`.range__value`);
-  const rangePrice = item.querySelector(`.range__total-price`);
-  rangeInput.addEventListener('input', function () {
-    rangeResult.innerHTML = `${this.value}`;
-    rangePrice.innerHTML = `${this.value * this.dataset.price}`;
-  });
-} // Form
-
-
-const form = document.querySelector(`.form`);
-const quantityElement = document.querySelector(`.form__quantity`);
-const priceElement = document.querySelector(`.form__price`);
-form.addEventListener('input', function () {
-  const formInputs = form.querySelectorAll(`input[data-price]`);
-
-  if (formInputs.checked) {
-    console.log(`чето чекнуто`);
-  }
-
+const formContainer = document.querySelector(`.app`);
+formContainer.innerHTML = ``;
+const formItem = new _components_form_form__WEBPACK_IMPORTED_MODULE_0__["Form"]();
+formContainer.appendChild(formItem.render());
+formContainer.addEventListener('input', function () {
+  const formInputs = document.querySelectorAll(`input[data-price]`);
   let totalQuantity = 0;
   let totalPrice = 0;
 
@@ -152,9 +250,46 @@ form.addEventListener('input', function () {
     totalPrice += parseInt(formInputs[i].dataset.price * formInputs[i].value);
   }
 
-  quantityElement.innerHTML = totalQuantity;
-  priceElement.innerHTML = totalPrice;
-});
+  document.querySelector(`.form__quantity`).innerHTML = totalQuantity.toString();
+  document.querySelector(`.form__price`).innerHTML = totalPrice.toString();
+}); // Render Range Sliders
+
+const rangeSliderContainer = document.querySelector(`.ranges__container`);
+rangeSliderContainer.innerHTML = ``; // @name, @price, @min, @max, @step, @start
+
+const rangeSliderItem = new _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__["RangeSlider"](`Обои`, 100, 0, 100, 1, 0);
+rangeSliderContainer.appendChild(rangeSliderItem.render());
+const rangeSliderItem2 = new _components_range_slider_range_slider__WEBPACK_IMPORTED_MODULE_1__["RangeSlider"](`Доски`, 200, 0, 100, 1, 0);
+rangeSliderContainer.appendChild(rangeSliderItem2.render()); // Range Sliders Dynamic Result
+
+const rangeSliders = document.querySelectorAll(`.range__item`);
+
+for (let item of rangeSliders) {
+  const rangeInput = item.querySelector(`.range__input`);
+  const rangePrice = item.querySelector(`.range__total-price`);
+  rangeInput.addEventListener('input', function () {
+    rangePrice.innerHTML = `${this.value * this.dataset.price}`;
+  });
+}
+
+/***/ }),
+
+/***/ "./src/utils.js":
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+/*! exports provided: createElement */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createElement", function() { return createElement; });
+// Create Element
+const createElement = template => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
 
 /***/ })
 
